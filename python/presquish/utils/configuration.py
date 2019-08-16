@@ -6,8 +6,13 @@
 # @Filename: configuration.py
 # @License: BSD 3-clause (http://www.opensource.org/licenses/BSD-3-Clause)
 #
-# @Last modified by: José Sánchez-Gallego (gallegoj@uw.edu)
-# @Last modified time: 2019-05-09 10:44:49
+# @Last modified by: Adam Mendenhall (amendenhall@ucsb.edu)
+# @Last modified time: 2019-08-16 10:32:49
+
+from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
+from __future__ import unicode_literals
 
 import os
 
