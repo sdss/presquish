@@ -27,7 +27,7 @@ def run(packages, install_requires):
     setup(name=NAME,
           version=VERSION,
           license='BSD3',
-          description='suiqshes fps layouts so their wok projections are 3d grid perfect',
+          description='squishes fps layouts so their wok projections are 3d grid perfect',
           long_description=open('README.rst').read(),
           author='Adam Mendenhall',
           author_email='amendenhall@ucsb.edu',

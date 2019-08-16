@@ -1,7 +1,7 @@
 presquish
 ==============================
 
-suiqshes fps layouts so their wok projections are 3d grid perfect
+squishes fps layouts so their wok projections are 3d grid perfect
 
 |travis| |coveralls| |docs|
 
