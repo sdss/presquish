@@ -17,7 +17,7 @@ import sys
 
 # The NAME variable should be of the format "sdss-presquish".
 # Please check your NAME adheres to that format.
-NAME = 'presquish'
+NAME = 'sdss-presquish'
 VERSION = '0.0.0'
 RELEASE = 'dev' in VERSION
 
