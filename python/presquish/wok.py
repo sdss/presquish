@@ -23,6 +23,10 @@ class wok:
         layer = [0,0]
         for i in range(1,layers):
             newlayer = self.glomlayer(layer, separation3d)
+            import matplotlib.pyplot as p
+            fig,ax = p.subplots()
+            ax.scatter(grid[0::2],grid[1::2])
+            p.show()
             grid.extend(newlayer)
             layer = newlayer
         return grid

@@ -1,7 +1,7 @@
 import numpy
 import math
 
-from .wok import wok
+from wok import wok
 
 class woksphere(wok):
 
@@ -26,48 +26,22 @@ class woksphere(wok):
     def glomsingularunconstrainedmultifunc(self, ax, ay, bx, by, separation3d):
         sepsqd = separation3d**2
         sepqqd = sepsqd**2
-        dx = ax-bx
-        dy = ay-by
-        rsqda = ax**2+ay**2
-        rsqdb = bx**2+by**2
-        saga = self.sag_rsqd(rsqda)
-        sagb = self.sag_rsqd(rsqdb)
-        dsagsqd = (saga-sagb)**2
-        A = (-dx*dy)/(dsagsqd+dx**2)
-        B = A**2-(dsagsqd+dy**2)/(dsagsqd+dx**2)
-        C = dsagsqd*self.radiussqd/(dsagsqd+dx**2)
-        coefs = []
-        coefs.append((ax*(2*ay*A-ax)-ay**2*(A**2+B)+self.radiussqd*(A**2+B+1))**2/4-B*(ay**2*A-self.radiussqd*A-ax*ay)**2)
-        coefs.append((sepsqd/2-self.radiussqd)*(ax*A+ay)*(ax*(2*ay*A-ax)-ay**2*(A**2+B)+self.radiussqd*(A**2+B+1))-B*(2*self.radiussqd-sepsqd)*(ay**2*A-self.radiussqd*A-ax*ay)*ax)
-        coefs.append((sepsqd/2-self.radiussqd)**2*((ax*A+ay)**2-B*ax**2)+(ax*(2*ay*A-ax)-ay**2*(A**2+B)+self.radiussqd*(A**2+B+1))*(sepqqd/4+(C-sepsqd+ax**2+ay**2)*self.radiussqd-ay**2*C)/2-C*(ay**2*A-self.radiussqd*A-ax*ay)**2)
-        coefs.append((sepsqd/2-self.radiussqd)*(ax*A+ay)*(sepqqd/4+(C-sepsqd+ax**2+ay**2)*self.radiussqd-ay**2*C)-C*(2*self.radiussqd-sepsqd)*(ay**2*A-self.radiussqd*A-ax*ay)*ax)
-        coefs.append(((sepqqd/4+(C-sepsqd+ax**2+ay**2)*self.radiussqd-ay**2*C)/2)**2-(self.radiussqd-sepsqd/2)**2*C*ax**2)
-        roots = numpy.roots(coefs)
-        possiblesolns = []
-        for y in roots:
-            if numpy.isreal(y):
-                y = numpy.real(y)
-                discr = ax**2*(2*self.radiussqd-2*ay*y-sepsqd)**2+4*((rsqda-self.radiussqd)*(y**2-self.radiussqd)-(self.radiussqd-ay*y-sepsqd/2)**2)*(self.radiussqd-ay**2)
-                if discr>=0:
-                    x = (ax*(2*self.radiussqd-2*ay*y-sepsqd)+math.sqrt(discr))/(2*(self.radiussqd-ay**2))
-                    if abs((bx-x)**2+(by-y)**2+(self.sag_rsqd(x**2+y**2)-sagb)**2-sepsqd)<10:
-                        possiblesolns.append((x,y))
-                discr = ax**2*(2*self.radiussqd-2*ay*y-sepsqd)**2+4*((rsqda-self.radiussqd)*(y**2-self.radiussqd)-(self.radiussqd-ay*y-sepsqd/2)**2)*(self.radiussqd-ay**2)
-                if discr>=0:
-                    x = (ax*(2*self.radiussqd-2*ay*y-sepsqd)-math.sqrt(discr))/(2*(self.radiussqd-ay**2))
-                    if abs((bx-x)**2+(by-y)**2+(self.sag_rsqd(x**2+y**2)-sagb)**2-sepsqd)<10:
-                        possiblesolns.append((x,y))
-                discr = bx**2*(2*self.radiussqd-2*by*y-sepsqd)**2+4*((rsqdb-self.radiussqd)*(y**2-self.radiussqd)-(self.radiussqd-by*y-sepsqd/2)**2)*(self.radiussqd-by**2)
-                if discr>=0:
-                    x = (bx*(2*self.radiussqd-2*by*y-sepsqd)+math.sqrt(discr))/(2*(self.radiussqd-by**2))
-                    if abs((ax-x)**2+(ay-y)**2+(self.sag_rsqd(x**2+y**2)-saga)**2-sepsqd)<10:
-                        possiblesolns.append((x,y))
-                discr = bx**2*(2*self.radiussqd-2*by*y-sepsqd)**2+4*((rsqdb-self.radiussqd)*(y**2-self.radiussqd)-(self.radiussqd-by*y-sepsqd/2)**2)*(self.radiussqd-by**2)
-                if discr>=0:
-                    x = (bx*(2*self.radiussqd-2*by*y-sepsqd)-math.sqrt(discr))/(2*(self.radiussqd-by**2))
-                    if abs((ax-x)**2+(ay-y)**2+(self.sag_rsqd(x**2+y**2)-saga)**2-sepsqd)<10:
-                        possiblesolns.append((x,y))
-        if len(possiblesolns)<1:
-            return [(0,0)]
-        else:
-            return possiblesolns
+        dx = bx-ax
+        dy = by-ay
+        rootyboy = math.sqrt(sepsqd/(dx**2+dy**2)-1/4)
+        s = 1
+        if bx*ay>ax*by:
+            s = -1
+        startptx = (ax+bx)/2+s*dy*rootyboy
+        startpty = (ay+by)/2-s*dx*rootyboy
+        angle = math.atan2(startpty-ay,startptx-ax)
+        minangle = angle
+        maxangle = angle
+        
+
+w = woksphere()
+grid = w.squishedgrid_full(10,20.002)
+import matplotlib.pyplot as p
+fig,ax = p.subplots()
+ax.scatter(grid[0::2],grid[1::2])
+p.show()
