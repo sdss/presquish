@@ -109,28 +109,19 @@ class wok:
             newlayer.append(-halfroot3newrad)
         return newlayer
 
-    def glomsingularunconstrained(self, ax, ay, bx, by, separation3d, fartherfromzero=True, otherwiseclockwise=False):
-        p0,p1 = self.glomsingularunconstrainedmultifunc(ax,ay,bx,by,separation3d)
-        x0 = p0[0]
-        y0 = p0[1]
-        x1 = p1[0]
-        y1 = p1[1]
-        mag0 = x0**2+y0**2
-        mag1 = x1**2+y1**2
-        if mag0>mag1:
-            return (x0,y0)
-        elif mag1>mag0:
-            return (x1,y1)
-        elif x0*y1<x1*y0: #0th point is in counterclockwise half of plane wrt 1th point
-            if otherwiseclockwise:
-                return (x1,y1)
-            else:
-                return (x0,y0)
-        else: #0th point is in clockwise half of plane wrt 1th point
-            if otherwiseclockwise:
-                return (x0,y0)
-            else:
-                return (x1,y1)
+    def glomsingularunconstrained(self, ax, ay, bx, by, separation3d):
+        pts = self.glomsingularunconstrainedmultifunc(ax,ay,bx,by,separation3d)
+        maxmag = None
+        maxmagidxs = []
+        for i in range(len(pts)):
+            mag = pts[i][0]**2+pts[i][1]**2
+            if maxmag is None or mag>=maxmag:
+                if mag==maxmag:
+                    maxmagidxs.append(i)
+                else:
+                    maxmag = mag
+                    maxmagidxs = [i]
+        return pts[maxmagidxs[0]]
 
     def glomsingularlinearconstrained(self, prevrad, separation3d):
         return prevrad+separation3d
