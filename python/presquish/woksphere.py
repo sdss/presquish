@@ -1,11 +1,12 @@
 import numpy
 import math
 
-from wok import wok
+from .wok import wok
 
 class woksphere(wok):
 
     def __init__(self, curvature=1/8800):
+        wok.__init__(self)
         self.curvature = curvature
         self.radius = 1/self.curvature
         self.radiussqd = self.radius**2
