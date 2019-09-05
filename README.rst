@@ -15,3 +15,15 @@ squishes fps layouts so their wok projections are 3d grid perfect
 
 .. |coveralls| image:: https://coveralls.io/repos/github/sdss/presquish/badge.svg?branch=master
    :target: https://coveralls.io/github/sdss/presquish?branch=master
+
+example installation from repo root directory:
+```
+python setup.py build
+sudo python setup.py install
+```
+example usage:
+```
+python -m presquish sphere 5 20.23
+python -m presquish quhere 14 22.4
+python -m presquish flat 10 10
+```
