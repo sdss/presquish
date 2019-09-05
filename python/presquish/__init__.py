@@ -8,7 +8,6 @@ from __future__ import unicode_literals
 from .utils import get_config, get_logger
 from . import wok
 from . import wokquhere
-from . import woksphere
 
 NAME = 'presquish'
 

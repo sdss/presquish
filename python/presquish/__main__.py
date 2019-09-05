@@ -18,7 +18,6 @@ import sys
 
 from .wok import wok
 from .wokquhere import wokquhere
-from .woksphere import woksphere
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
@@ -38,7 +37,7 @@ if __name__ == '__main__':
     if args.wokshape=='quhere':
         w = wokquhere()
     elif args.wokshape=='sphere':
-        w = woksphere()
+        w = wokquhere(quadraticconst=0)
     elif args.wokshape=='flat':
         w = wok()
     else:
