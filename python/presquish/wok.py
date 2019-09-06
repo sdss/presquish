@@ -19,95 +19,33 @@ class wok:
         return grid3d
 
     def squishedgrid_full(self, layers, separation3d):
-        grid = [0,0]
-        layer = [0,0]
+        grid = {(0,0):(0,0)}
+        layeridx = 0
+        layer = {(0,0):(0,0)}
         for i in range(1,layers):
-            newlayer = self.glomlayer(layer, separation3d)
-            grid.extend(newlayer)
-            layer = newlayer
+            self.glomlayer(grid, layeridx, separation3d)
+            layeridx += 1
         return grid
 
-    def glomlayer(self, prevlayer, separation3d):
-        newlayer = []
-        newrad = self.glomsingularlinearconstrained(prevlayer[0], separation3d)
+    def glomlayer(self, grid, prevlayeridx, separation3d):
+        newrad = self.glomsingularlinearconstrained(grid[(prevlayeridx,0)][0], separation3d)
+        idx = 0
         halfnewrad = newrad/2
         halfroot3newrad = math.sqrt(3)*halfnewrad
-        sixth = int(len(prevlayer)/6)
-        if len(prevlayer)>2:
-            newlayer.append(newrad)
-            newlayer.append(0)
-            for i in range(0,sixth,2):
-                ax = prevlayer[i]
-                ay = prevlayer[i+1]
-                bx = prevlayer[i+2]
-                by = prevlayer[i+3]
+        for i in range(0,prevlayeridx,1):
+            for j in range(0,6,1):
+                ax = grid[(prevlayeridx,i+j*prevlayeridx)][0]
+                ay = grid[(prevlayeridx,i+j*prevlayeridx)][1]
+                bx = grid[(prevlayeridx,(i+j*prevlayeridx+1)%(6*prevlayeridx))][0]
+                by = grid[(prevlayeridx,(i+j*prevlayeridx+1)%(6*prevlayeridx))][1]
                 x,y = self.glomsingularunconstrained(ax,ay,bx,by,separation3d)
-                newlayer.append(x)
-                newlayer.append(y)
-            newlayer.append(halfnewrad)
-            newlayer.append(halfroot3newrad)
-            for i in range(sixth,2*sixth,2):
-                ax = prevlayer[i]
-                ay = prevlayer[i+1]
-                bx = prevlayer[i+2]
-                by = prevlayer[i+3]
-                x,y = self.glomsingularunconstrained(ax,ay,bx,by,separation3d)
-                newlayer.append(x)
-                newlayer.append(y)
-            newlayer.append(-halfnewrad)
-            newlayer.append(halfroot3newrad)
-            for i in range(2*sixth,3*sixth,2):
-                ax = prevlayer[i]
-                ay = prevlayer[i+1]
-                bx = prevlayer[i+2]
-                by = prevlayer[i+3]
-                x,y = self.glomsingularunconstrained(ax,ay,bx,by,separation3d)
-                newlayer.append(x)
-                newlayer.append(y)
-            newlayer.append(-newrad)
-            newlayer.append(0)
-            for i in range(3*sixth,4*sixth,2):
-                ax = prevlayer[i]
-                ay = prevlayer[i+1]
-                bx = prevlayer[i+2]
-                by = prevlayer[i+3]
-                x,y = self.glomsingularunconstrained(ax,ay,bx,by,separation3d)
-                newlayer.append(x)
-                newlayer.append(y)
-            newlayer.append(-halfnewrad)
-            newlayer.append(-halfroot3newrad)
-            for i in range(4*sixth,5*sixth,2):
-                ax = prevlayer[i]
-                ay = prevlayer[i+1]
-                bx = prevlayer[i+2]
-                by = prevlayer[i+3]
-                x,y = self.glomsingularunconstrained(ax,ay,bx,by,separation3d)
-                newlayer.append(x)
-                newlayer.append(y)
-            newlayer.append(halfnewrad)
-            newlayer.append(-halfroot3newrad)
-            for i in range(5*sixth,6*sixth,2):
-                ax = prevlayer[i]
-                ay = prevlayer[i+1]
-                bx = prevlayer[(i+2)%len(prevlayer)]
-                by = prevlayer[(i+3)%len(prevlayer)]
-                x,y = self.glomsingularunconstrained(ax,ay,bx,by,separation3d)
-                newlayer.append(x)
-                newlayer.append(y)
-        else:
-            newlayer.append(newrad)
-            newlayer.append(0)
-            newlayer.append(halfnewrad)
-            newlayer.append(halfroot3newrad)
-            newlayer.append(-halfnewrad)
-            newlayer.append(halfroot3newrad)
-            newlayer.append(-newrad)
-            newlayer.append(0)
-            newlayer.append(-halfnewrad)
-            newlayer.append(-halfroot3newrad)
-            newlayer.append(halfnewrad)
-            newlayer.append(-halfroot3newrad)
-        return newlayer
+                grid[(prevlayeridx+1,i+1+j*(prevlayeridx+1))] = (x,y)
+        grid[(prevlayeridx+1,0)] = (newrad,0)
+        grid[(prevlayeridx+1,prevlayeridx+1)] = (halfnewrad,halfroot3newrad)
+        grid[(prevlayeridx+1,2*(prevlayeridx+1))] = (-halfnewrad,halfroot3newrad)
+        grid[(prevlayeridx+1,3*(prevlayeridx+1))] = (-newrad,0)
+        grid[(prevlayeridx+1,4*(prevlayeridx+1))] = (-halfnewrad,-halfroot3newrad)
+        grid[(prevlayeridx+1,5*(prevlayeridx+1))] = (halfnewrad,-halfroot3newrad)
 
     def glomsingularunconstrained(self, ax, ay, bx, by, separation3d):
         pts = self.glomsingularunconstrainedmultifunc(ax,ay,bx,by,separation3d)

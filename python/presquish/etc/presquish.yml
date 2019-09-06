@@ -2,7 +2,10 @@
 
 spherewokparams:
     radius: 8800
+    quadcontrib: 0
 
 quherewokparams:
     radius: 8800
     quadcontrib: 0.0000012336
+
+tolerance: 0.0000001

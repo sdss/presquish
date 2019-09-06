@@ -9,16 +9,12 @@ from .utils import get_config, get_logger
 from . import wok
 from . import wokquhere
 
-NAME = 'presquish'
-
-
 # Loads config
-config = get_config(NAME)
-
+config = get_config('presquish')
 
 # Inits the logging system. Only shell logging, and exception and warning catching.
 # File logging can be started by calling log.start_file_logger(path).
-log = get_logger(NAME)
+log = get_logger('presquish')
 
 
 __version__ = '0.0.0'

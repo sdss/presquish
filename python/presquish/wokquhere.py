@@ -2,9 +2,11 @@ import math
 import numpy
 
 from .wok import wok
-
+from .utils import get_config
 
 class wokquhere(wok):
+
+    config = get_config('presquish')
 
     def __init__(self, curvature=1/8800, quadraticconst=0.0000012336):
         wok.__init__(self)
@@ -12,7 +14,7 @@ class wokquhere(wok):
         self.radius = 1/self.curvature
         self.radiussqd = self.radius**2
         self.quadconst = quadraticconst
-        self.tolerance = 0.00001
+        self.tolerance = wokquhere.config['tolerance']
 
     def sag_rsqd(self, radiussqd):
         return self.radius-math.sqrt(self.radiussqd-radiussqd)+self.quadconst*radiussqd
