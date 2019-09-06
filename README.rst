@@ -26,3 +26,5 @@ example usage::
 $ python -m presquish sphere 5 20.23
 $ python -m presquish quhere 14 22.4
 $ python -m presquish flat 10 10
+
+$ python -m -infile fps_RTConfig.txt -outfile squished_RTConfig.txt presuish quhere 14 22.4
