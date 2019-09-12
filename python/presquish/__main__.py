@@ -56,7 +56,7 @@ if __name__ == '__main__':
     if w is not None:
         if args.verbose:
             print('computing grid with',args.nlayers,'layers and a distance of',args.separation,'between 3d dots')
-        grid = w.squishedgrid_full(args.nlayers, args.separation)
+        grid = w.squishedgrid_3d(args.nlayers, args.separation)
         if args.outfile is None:
             if args.verbose:
                 print('displaying grid')
@@ -105,10 +105,11 @@ if __name__ == '__main__':
                     l1 = max(len('Xangle'),max([len(str(i[1])) for i in filteredgrid]))+4
                     l2 = max(len('X (mm)'),max([len(str(filteredgrid[i][0][0])) for i in filteredgrid]))+4
                     l3 = max(len('Y (mm)'),max([len(str(filteredgrid[i][0][1])) for i in filteredgrid]))+4
-                    l4 = max(len('Assignment'),max([len(str(filteredgrid[i][1])) for i in filteredgrid]))+4
-                    f.write('# Layer'.ljust(l0)+'Xangle'.ljust(l1)+'X (mm)'.ljust(l2)+'Y (mm)'.ljust(l3)+'Assignment'.ljust(l4)+'\n')
+                    l4 = max(len('Z (mm)'),max([len(str(filteredgrid[i][0][2])) for i in filteredgrid]))+4
+                    l5 = max(len('Assignment'),max([len(str(filteredgrid[i][1])) for i in filteredgrid]))+4
+                    f.write('# Layer'.ljust(l0)+'Xangle'.ljust(l1)+'X (mm)'.ljust(l2)+'Y (mm)'.ljust(l3)+'Z (mm)'.ljust(l4)+'Assignment'.ljust(l5)+'\n')
                     for i in filteredgrid:
-                        f.write(str(i[0]).ljust(l0)+str(i[1]).ljust(l1)+str(filteredgrid[i][0][0]).ljust(l2)+str(filteredgrid[i][0][1]).ljust(l3)+str(filteredgrid[i][1]).ljust(l4)+'\n')
+                        f.write(str(i[0]).ljust(l0)+str(i[1]).ljust(l1)+str(filteredgrid[i][0][0]).ljust(l2)+str(filteredgrid[i][0][1]).ljust(l3)+str(filteredgrid[i][0][2]).ljust(l4)+str(filteredgrid[i][1]).ljust(l5)+'\n')
             else:
                 if args.verbose:
                     print('writing grid to',args.outfile)
@@ -125,6 +126,7 @@ if __name__ == '__main__':
                     l1 = max(len('Xangle'),max([len(str(i[1])) for i in grid]))+4
                     l2 = max(len('X (mm)'),max([len(str(grid[i][0])) for i in grid]))+4
                     l3 = max(len('Y (mm)'),max([len(str(grid[i][1])) for i in grid]))+4
-                    f.write('# Layer'.ljust(l0)+'Xangle'.ljust(l1)+'X (mm)'.ljust(l2)+'Y (mm)'.ljust(l3)+'\n')
+                    l4 = max(len('Z (mm)'),max([len(str[grid[i][2]]) for i in grid]))+4
+                    f.write('# Layer'.ljust(l0)+'Xangle'.ljust(l1)+'X (mm)'.ljust(l2)+'Y (mm)'.ljust(l3)+'Z (mm)'.ljust(l4)+'\n')
                     for i in grid:
-                        f.write(str(i[0]).ljust(l0)+str(i[1]).ljust(l1)+str(grid[i][0]).ljust(l2)+str(grid[i][1]).ljust(l3)+'\n')
+                        f.write(str(i[0]).ljust(l0)+str(i[1]).ljust(l1)+str(grid[i][0]).ljust(l2)+str(grid[i][1]).ljust(l3)+str(grid[i][2]).ljust(l4)+'\n')

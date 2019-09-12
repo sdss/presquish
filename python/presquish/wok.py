@@ -13,9 +13,9 @@ class wok:
 
     def squishedgrid_3d(self, layers, separation3d):
         grid2d = self.squishedgrid_full(layers, separation3d)
-        grid3d = []
-        for i in range(0,len(grid2d),2):
-            grid3d.append((grid2d[i],grid2d[i+1],self.sag_rsqd(grid2d[i]**2+grid2d[i+1]**2)))
+        grid3d = {}
+        for i in grid2d:
+            grid3d[i] = (grid2d[i][0],grid2d[i][1],self.sag_rsqd(grid2d[i][0]**2+grid2d[i][1]**2))
         return grid3d
 
     def squishedgrid_full(self, layers, separation3d):
