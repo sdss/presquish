@@ -61,9 +61,10 @@ if __name__ == '__main__':
             if args.verbose:
                 print('displaying grid')
             import matplotlib.pyplot as pyplot
-            fig,ax = pyplot.subplots()
-            ax.scatter([grid[i][0] for i in grid],[grid[i][1] for i in grid])
-            ax.set_aspect(1)
+            from mpl_toolkits.mplot3d import Axes3D
+            fig = pyplot.figure()
+            ax3 = fig.add_subplot(111,projection='3d')
+            ax3.scatter([grid[i][0] for i in grid],[grid[i][1] for i in grid],[grid[i][2] for i in grid])
             pyplot.show()
         else:
             import datetime
